@@ -14,23 +14,45 @@
  * limitations under the License.
  */
 
-package com.example.appengine.helloworld;
+package pt.adrz.appengine.arena.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import pt.adrz.appengine.arena.utils.Utils;
+
 // [START example]
 @SuppressWarnings("serial")
-public class HelloServlet extends HttpServlet {
+public class ArenaServlet extends HttpServlet {
 
   @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    PrintWriter out = resp.getWriter();
-    out.println("Hello, world");
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	  
+		String ace = request.getParameter("ace");
+		String sop = request.getParameter("sop");
+
+		PrintWriter out = response.getWriter();
+
+		if (ace != null) {
+			out.println(Utils.getLink(ace));
+			return;
+		}
+
+		if (sop != null) {
+			out.println(Utils.getLink(sop));
+			return;
+		}
+
+		String html = Utils.table();
+		request.setAttribute("html", html);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("arenavision.jsp");
+		dispatcher.forward(request, response);
   }
 }
 // [END example]
