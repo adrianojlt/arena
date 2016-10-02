@@ -39,6 +39,17 @@ $(document).ready(function() {
 		gCells = cells;
 	};
 	
+	var highlightCell = function(cells) {
+
+		cells.each(function(key,val) {
+			var hasKeyWord = $(val).text().search(/portugal/i)
+			if ( hasKeyWord != -1 ) {
+				$(val).parent().addClass('info');
+				return;
+			}
+		});
+	};
+	
 	function processLastCell(last) {
 		
 		var text = last.html();
@@ -64,6 +75,8 @@ $(document).ready(function() {
 			var cells = $(val).find('td');
 
 			if ( key == 1 ) processTimeCell(cells);
+
+			highlightCell(cells);
 
 			processLastCell(cells.last());
 		}
