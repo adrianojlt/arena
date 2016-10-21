@@ -36,7 +36,28 @@ $(document).ready(function() {
 	};
 	
 	function processTimeCell(cells) {
+
 		gCells = cells;
+		var hourCell = $(cells[1]);
+		console.log('before: ' + hourCell.html());
+
+		try {
+
+			var hourString = hourCell.html().split(/-| /)[0];
+			var hourInArr = hourString.split(/:/);
+			var seconds = hourInArr[0]*3600 + hourInArr[1]*60;
+			var minusOneHour = seconds - 3600;
+			var date = new Date(null);
+
+			date.setSeconds(minusOneHour);
+			
+			var finalString = date.toISOString().substr(11, 5);
+			hourCell.html(finalString);
+			console.log('after: ' + finalString);
+		}
+		catch(err) {
+			
+		}
 	};
 	
 	var highlightCell = function(cells) {
@@ -74,7 +95,8 @@ $(document).ready(function() {
 			
 			var cells = $(val).find('td');
 
-			if ( key == 1 ) processTimeCell(cells);
+			//if ( key == 1 ) 
+			processTimeCell(cells);
 
 			highlightCell(cells);
 
