@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+gaeDatanucleusEnabled=false
 gaeDoJarClasses=false
 gaeEnableJarSplitting=true
 gaeRetainStagingDirectory=false
