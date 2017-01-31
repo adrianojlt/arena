@@ -14,7 +14,7 @@ import org.jsoup.nodes.Element;
 
 public class Utils {
 
-	public static String address = "http://arenavision.in/agenda";
+	public static String address = "http://arenavision.in/schedule";
 	
 	public static String download(String add) throws IOException {
 		
@@ -25,7 +25,7 @@ public class Utils {
 		URLConnection spoof = url.openConnection();
 
 		// Spoof the connection so we look like a web browser
-		spoof.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0;    H010818)");
+		spoof.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36");
 		BufferedReader in = new BufferedReader(new InputStreamReader(spoof.getInputStream()));
 
 		String strLine = "";

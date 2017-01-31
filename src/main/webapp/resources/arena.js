@@ -39,7 +39,7 @@ $(document).ready(function() {
 
 		gCells = cells;
 		var hourCell = $(cells[1]);
-		console.log('before: ' + hourCell.html());
+		//console.log('before: ' + hourCell.html());
 
 		try {
 
@@ -53,7 +53,7 @@ $(document).ready(function() {
 			
 			var finalString = date.toISOString().substr(11, 5);
 			hourCell.html(finalString);
-			console.log('after: ' + finalString);
+			//console.log('after: ' + finalString);
 		}
 		catch(err) {
 			
@@ -98,7 +98,7 @@ $(document).ready(function() {
 			//if ( key == 1 ) 
 			processTimeCell(cells);
 
-			highlightCell(cells);
+			//highlightCell(cells);
 
 			processLastCell(cells.last());
 		}
@@ -113,7 +113,7 @@ $(document).ready(function() {
 		$.ajax({
 			url: "home", 
 			type: "GET",
-			data: {ace: paramValue },
+			data: { lnk: paramValue },
 			success: function(result) {
 				link.attr("href",result);
 				window.open(result,'_blank');
@@ -130,7 +130,7 @@ $(document).ready(function() {
 		$.ajax({
 			url: "home", 
 			type: "GET",
-			data: {sop: paramValue },
+			data: { lnk: paramValue },
 			success: function(result) {
 				link.attr("href",result);
 			}
@@ -146,7 +146,7 @@ $(document).ready(function() {
 		$.ajax({
 			url: "home", 
 			type: "GET",
-			data: {sop: paramValue },
+			data: { lnk: paramValue },
 			success: callback		
 		});
 	}

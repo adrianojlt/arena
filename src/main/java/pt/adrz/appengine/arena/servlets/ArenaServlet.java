@@ -27,20 +27,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import pt.adrz.appengine.arena.utils.Utils;
 
-// [START example]
 @SuppressWarnings("serial")
 public class ArenaServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 	  
+		String lnk = request.getParameter("lnk");
 		String ace = request.getParameter("ace");
 		String sop = request.getParameter("sop");
 
 		PrintWriter out = response.getWriter();
 
-		if (ace != null) {
-			out.println(Utils.getLink(ace));
+		if (lnk != null) {
+			out.println(Utils.getLink(lnk));
 			return;
 		}
 
@@ -55,4 +55,3 @@ public class ArenaServlet extends HttpServlet {
 		dispatcher.forward(request, response);
   }
 }
-// [END example]
