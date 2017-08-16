@@ -3,6 +3,7 @@ package pt.adrz.appengine.arena.utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream.GetField;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.regex.Matcher;
@@ -12,9 +13,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.KeyFactory;
+
 public class Utils {
 
-	public static String address = "http://arenavision.in/schedule";
+	public static String domain = "http://arenavision.in";
+	public static String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36";
 	
 	public static String download(String add) throws IOException {
 		
@@ -24,8 +30,7 @@ public class Utils {
 		url = new URL(add);
 		URLConnection spoof = url.openConnection();
 
-		// Spoof the connection so we look like a web browser
-		spoof.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36");
+		spoof.setRequestProperty("User-Agent", Utils.USER_AGENT);
 		BufferedReader in = new BufferedReader(new InputStreamReader(spoof.getInputStream()));
 
 		String strLine = "";
@@ -39,18 +44,15 @@ public class Utils {
 	}
 	
 	public static String parse(String html) {
+
 		try {
 			Document doc = Jsoup.parse(html);
-			//Element elem = doc.getElementsByClass("content").first();
 			Element elem = doc.select("table").first();
-			//Element elem = doc.getElementsByTag("table").first();
-			//Node first = elem.childNodes().get(0).childNode(1);
-			//return first.toString();
 			return elem.html();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		return null;
 	}
 	
@@ -59,10 +61,10 @@ public class Utils {
 		String html = "";
 
 		try {
-			html = download(address);
+			String path = firstPage();
+			html = download(domain + path);
 			html = parse(html);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -72,23 +74,10 @@ public class Utils {
 	public static String getLink(String param) {
 		
 		String acestreamPattern = "acestream://\\w*";
-		String soapPattern = "sop://[a-z.:\\d/]*";
-		String useThisPattern = null;
-		String oneOrTwoDigitsPattern = "^[0-9]{1,2}$";
+		//String soapPattern = "sop://[a-z.:\\d/]*";
+		//String oneOrTwoDigitsPattern = "^[0-9]{1,2}$";
 		String pageContent = "";
 		String link = "";
-		
-		if ( param.startsWith("av")  && param.substring(2).matches(oneOrTwoDigitsPattern)) {
-			 useThisPattern = acestreamPattern;
-		}
-
-		if ( param.startsWith("avs") && param.substring(3).matches(oneOrTwoDigitsPattern)) {
-			 useThisPattern = soapPattern;
-		}
-		
-		if ( useThisPattern == null ) {
-			return "";
-		}
 		
 		try {
 			pageContent = download("http://arenavision.in/" + param);
@@ -96,7 +85,7 @@ public class Utils {
 			return "";
 		}
 
-		Pattern pattern = Pattern.compile(useThisPattern);
+		Pattern pattern = Pattern.compile(acestreamPattern);
 		Matcher matcher = pattern.matcher(pageContent);
 
 		if ( matcher.find() ) {
@@ -108,8 +97,32 @@ public class Utils {
 	
 	public static void main(String[] args) {
 		//System.out.println(table());
-		System.out.println(getLink("avs1"));
+		System.out.println(getLink("1"));
 		//getAcestream();
+		//datastore();
+		//System.out.println(table());
+		//System.out.println(firstPage());
 	}
 
+	public static String firstPage() {
+
+		String pageContent = "";
+		String schedulePath = null;
+
+		try {
+			pageContent = download(domain);
+			Document doc = Jsoup.parse(pageContent);
+			schedulePath = doc.getElementsByClass("leaf").get(1).select("a").attr("href");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return schedulePath;
+	}
+	
+	public static void datastore() {
+		final Datastore ds = DatastoreOptions.getDefaultInstance().getService();
+		final KeyFactory keyFactory = ds.newKeyFactory().setKind("Task");
+		System.out.println("keyFactory " + keyFactory.toString());
+	}
 }

@@ -34,18 +34,11 @@ public class ArenaServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 	  
 		String lnk = request.getParameter("lnk");
-		String ace = request.getParameter("ace");
-		String sop = request.getParameter("sop");
 
 		PrintWriter out = response.getWriter();
 
 		if (lnk != null) {
 			out.println(Utils.getLink(lnk));
-			return;
-		}
-
-		if (sop != null) {
-			out.println(Utils.getLink(sop));
 			return;
 		}
 

@@ -22,15 +22,15 @@ $(document).ready(function() {
 	function appendToLink(value) {
 		
 		var aceId = /^[0-9]{1,2}$/;		// one or two digits. 			Ex: 1,23
-		var sopId = /^S[0-9]{1,2}$/;	// an S with one or two digits. Ex: S3,S10
+		//var sopId = /^S[0-9]{1,2}$/;	// an S with one or two digits. Ex: S3,S10
 		
 		if ( aceId.exec(value) ) {
 			return $('<a target="_blank" href="#" class="acelink" value="' + value + '">' + value + '</a>');
 		}
 		
-		if ( sopId.exec(value) ) {
-			return $('<a target="_blank" href="#" class="soplink" value="' + value.slice(1) + '">' + value + '</a>');
-		}
+		//if ( sopId.exec(value) ) {
+			//return $('<a target="_blank" href="#" class="soplink" value="' + value.slice(1) + '">' + value + '</a>');
+		//}
 		
 		return value;
 	};
@@ -39,7 +39,6 @@ $(document).ready(function() {
 
 		gCells = cells;
 		var hourCell = $(cells[1]);
-		//console.log('before: ' + hourCell.html());
 
 		try {
 
@@ -53,7 +52,6 @@ $(document).ready(function() {
 			
 			var finalString = date.toISOString().substr(11, 5);
 			hourCell.html(finalString);
-			//console.log('after: ' + finalString);
 		}
 		catch(err) {
 			
@@ -108,7 +106,7 @@ $(document).ready(function() {
 
 		event.preventDefault();
 		link = $(this);
-		var paramValue = "av" + link.attr("value");
+		var paramValue = link.attr("value");
 
 		$.ajax({
 			url: "home", 
@@ -121,6 +119,7 @@ $(document).ready(function() {
 		});
 	});
 	
+	/*
 	$('.soplink').click(function(event) {
 
 		event.preventDefault();
@@ -136,7 +135,9 @@ $(document).ready(function() {
 			}
 		});
 	});
+	*/
 	
+	/*
 	handleClick = function(event,arg,param,callback) {
 		
 		event.preventDefault();
@@ -150,4 +151,6 @@ $(document).ready(function() {
 			success: callback		
 		});
 	}
+	*/
+	
 });
