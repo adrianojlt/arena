@@ -36,6 +36,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<failOnMissingWebXml>false</failOnMissingWebXml> <!-- REQUIRED -->
     	<appengine.maven.plugin>1.0.0</appengine.maven.plugin>
     	<jetty.maven.plugin>9.3.7.v20160115</jetty.maven.plugin>
+    	<maven.compiler.target>1.7</maven.compiler.target>
+  		<maven.compiler.source>1.7</maven.compiler.source>
 	</properties>
 
 	<dependencies>
@@ -43,6 +45,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<groupId>com.google.appengine</groupId>
 			<artifactId>appengine-api-1.0-sdk</artifactId>
 			<version>${appengine.sdk.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-datastore</artifactId>
+			<version>0.11.2-beta</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -69,7 +76,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
 	<plugins>
 	
-		<plugin>                          <!-- Used for local debugging -->
+		<!-- Used for local debugging -->
+		<plugin>                          
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-maven-plugin</artifactId>
 			<version>${jetty.maven.plugin}</version>
@@ -82,7 +90,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<configuration>
 				<!-- deploy configuration -->
 				<!-- <deploy.promote>true</deploy.promote> <!~~ DEFAULT value ~~> <deploy.stopPreviousVersion>true</deploy.stopPreviousVersion> 
-					<!~~ DEFAULT value ~~> -->
+				<!~~ DEFAULT value ~~> -->
 			</configuration>
 		</plugin>
 
