@@ -71,33 +71,46 @@ public class Utils {
 		return html;
 	}
 	
-	public static String getLink(String param) {
-		
-		String acestreamPattern = "acestream://\\w*";
-		//String soapPattern = "sop://[a-z.:\\d/]*";
-		//String oneOrTwoDigitsPattern = "^[0-9]{1,2}$";
+	public static String downloadPageContent(String param) {
+
 		String pageContent = "";
-		String link = "";
-		
+
 		try {
 			pageContent = download("http://arenavision.in/" + param);
 		} catch (IOException e) {
 			return "";
 		}
 
-		Pattern pattern = Pattern.compile(acestreamPattern);
-		Matcher matcher = pattern.matcher(pageContent);
-
-		if ( matcher.find() ) {
-			link = matcher.group();
-		} 
+		return pageContent;
+	}
+	
+	public static String getLink(String param) {
 		
-		return link;
+		String acestreamPattern = "acestream://\\w*";
+		//String soapPattern = "sop://[a-z.:\\d/]*";
+		//String oneOrTwoDigitsPattern = "^[0-9]{1,2}$";
+		String pageContent = "";
+
+		String []prefix = {"","av"};
+		
+		for (int i = 0; i < prefix.length; i++ ) {
+
+			pageContent = downloadPageContent(prefix[i] + param);
+
+			Pattern pattern = Pattern.compile(acestreamPattern);
+			Matcher matcher = pattern.matcher(pageContent);
+
+			if ( matcher.find() ) {
+				return matcher.group();
+			}
+		}
+		
+		return "";
 	}
 	
 	public static void main(String[] args) {
 		//System.out.println(table());
-		System.out.println(getLink("1"));
+		//System.out.println(getLink("3"));
 		//getAcestream();
 		//datastore();
 		//System.out.println(table());
