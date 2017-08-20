@@ -93,7 +93,6 @@ $(document).ready(function() {
 			
 			var cells = $(val).find('td');
 
-			//if ( key == 1 ) 
 			processTimeCell(cells);
 
 			//highlightCell(cells);
@@ -118,39 +117,5 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
-	/*
-	$('.soplink').click(function(event) {
-
-		event.preventDefault();
-		link = $(this);
-		var paramValue = "avs" + link.attr("value");
-
-		$.ajax({
-			url: "home", 
-			type: "GET",
-			data: { lnk: paramValue },
-			success: function(result) {
-				link.attr("href",result);
-			}
-		});
-	});
-	*/
-	
-	/*
-	handleClick = function(event,arg,param,callback) {
-		
-		event.preventDefault();
-		link = $(this);
-		var paramValue = arg + link.attr("value");
-		
-		$.ajax({
-			url: "home", 
-			type: "GET",
-			data: { lnk: paramValue },
-			success: callback		
-		});
-	}
-	*/
 	
 });
